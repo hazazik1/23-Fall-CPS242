@@ -27,9 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+SITE_ID = 1
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     # New Stuff
     'blog.apps.BlogConfig',
     'taggit',
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
 ]
 
 MIDDLEWARE = [
@@ -131,3 +133,6 @@ EMAIL_HOST_USER = '23f.CPS242@gmail.com'
 EMAIL_HOST_PASSWORD = 'rhdcajcvbsztpwfk'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+
+
