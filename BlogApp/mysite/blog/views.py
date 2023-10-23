@@ -14,6 +14,9 @@ from .forms import CommentForm
 
 from taggit.models import Tag
 
+from .forms import EmailPostForm, CommentForm, SearchForm
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank, TrigramSimilarity
+
 def post_detail(request, year, month, day, post):
     post = get_object_or_404(Post,
                              status=Post.Status.PUBLISHED,
@@ -99,5 +102,19 @@ def post_comment(request, post_id):
                   'blog/post/comment.html',
                   {'post': post, 'form': form, 'comment': comment})
 
-
+def post_search(request):
+   form = SearchForm()
+   query = None
+   results = []
+   if 'query' in request.GET:
+      form = SearchForm(request.GET)
+      if form.is_valid():
+         query = form.cleaned_data['query']
+         search_vector = SearchVector('title', weight='A') + \
+                         SearchVector('body', weight='B')
+         search_query = SearchQuery(query)
+         results = Post.published.annotate(
+                     similarity=TrigramSimilarity('title', query),
+                   ).filter(similarity__gt=0.1).order_by('-similarity')
+   return render(request, 'blog/post/search.html', {'form': form, 'query': query, 'results': results})
 
