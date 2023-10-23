@@ -1,5 +1,6 @@
 from django import template
 from ..models import Post
+from django.contrib.auth.models import User
 from django.db.models import Count
 from django.utils.safestring import mark_safe
 import markdown
@@ -23,3 +24,7 @@ def get_most_commented_posts(count=5):
 @register.filter(name='markdown')
 def markdown_format(text):
    return mark_safe(markdown.markdown(text))
+
+@register.simple_tag
+def show_leaderboard(count=3):
+  return User.objects.annotate(posts_count=Count('blog_posts')).order_by('-posts_count')[:count]

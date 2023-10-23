@@ -28,6 +28,15 @@
                 </li>
             {% endfor %}
         </ul>
+        <h3>Leaderboard</h3>
+        {% show_leaderboard as leaderboard %}
+        <ol>
+            {% for user in leaderboard %}
+                <li>
+                  {{ user.username }} ( {{ user.posts_count }} posts)
+                </li>
+            {% endfor %}
+        </ol>
     </div>
 </body>
 </html>
