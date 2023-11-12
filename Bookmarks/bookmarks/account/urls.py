@@ -20,5 +20,7 @@ urlpatterns = [
   # dashboard url
   path('', views.dashboard, name='dashboard'),
   # registration url
-  path('register/', views.register, name='register')
+  path('register/', views.register, name='register'),
+  # profile edit url
+  path('edit/', views.edit, name='edit'),
 ]
